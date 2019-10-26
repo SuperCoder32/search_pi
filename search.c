@@ -15,7 +15,6 @@ unsigned long long hash(char *begin, char *end) {
     return result;
 }
 
-const int MAXLEN = 100;
 unsigned long long power;
 
 void calc_power(int n) {
@@ -38,7 +37,7 @@ char streq(char *s1, char *e1, char *s2) {
 
 int main(int argc, char *argv[]) {
     if (argc != 3) {
-        puts("Usage: program accepts only 1 argument - the text to search for");
+        puts("Usage: program accepts 2 arguments - the text to search for, the number of decimal digits of pi to search in");
         return 1;
     }
     
@@ -48,14 +47,14 @@ int main(int argc, char *argv[]) {
     calc_power(pat_len);
 
     int pi_len = atoi(argv[2]);
-    char *pi = malloc( pi_len+2 );
+    char *pi = malloc( pi_len+2+1 );
     char *pi_start = pi+2;
     char *pi_end = pi_start + pi_len - pat_len + 1;
 
     scanf("%s", pi);
 
-    int curr_hash = hash(pi_start, pi_start + pat_len);
-    int pattern_hash = hash(pattern, pattern + pat_len);
+    unsigned long long curr_hash = hash(pi_start, pi_start + pat_len);
+    unsigned long long pattern_hash = hash(pattern, pattern + pat_len);
 
     char matchMsg[] = "Match found at %d decimal digit.\n";
     char falseMsg[] = "False positive at %d decimal digit.\n";
@@ -67,6 +66,10 @@ int main(int argc, char *argv[]) {
                 printf(matchMsg, dec);
             } else {
                 printf(falseMsg, dec); 
+                for (char* jt = it; jt != it+pat_len; jt++) {
+                    printf("%c", *jt);
+                }
+                puts("");
             }
         }
 
